@@ -27,13 +27,13 @@ myFont = pygame.font.SysFont("monospace", 75)
 
 def refresh_screen():
     screen.fill((80, 80, 80))
-    for col in range(len(gameBoard.game_map[0])):
-        if arrowsColor[col] == 0:
-            screen.blit(arrow, (cycleRadius * col * 2, 10))
-        elif arrowsColor[col] == 1:
-            screen.blit(arrowBlue, (cycleRadius * col * 2, 10))
+    for column in range(len(gameBoard.game_map[0])):
+        if arrowsColor[column] == 0:
+            screen.blit(arrow, (cycleRadius * column * 2, 10))
+        elif arrowsColor[column] == 1:
+            screen.blit(arrowBlue, (cycleRadius * column * 2, 10))
         else:
-            screen.blit(arrowRed, (cycleRadius * col * 2, 10))
+            screen.blit(arrowRed, (cycleRadius * column * 2, 10))
     y = int(cycleRadius + SCREEN_HEIGHT / 6)
     for row in gameBoard.game_map:
         x = int(cycleRadius)
@@ -58,7 +58,9 @@ player2 = AIPlayer("AI player", 2)
 currentPlayer = player2
 
 refresh_screen()
-while True:
+droppedCount = 0
+allSlots = len(gameBoard.game_map) * len(gameBoard.game_map[0])
+while droppedCount != allSlots:
     dropped = False
     if type(currentPlayer) == Person:
         for event in pygame.event.get():
@@ -96,15 +98,16 @@ while True:
 
     if dropped:
         if gameBoard.check_win(currentPlayer.number):
-
             break
         if currentPlayer == player1:
             currentPlayer = player2
         else:
             currentPlayer = player1
+        droppedCount += 1
 
-
-if currentPlayer == player1:
+if droppedCount == allSlots:
+    label = myFont.render("Game draw", 1, (255, 255, 255))
+elif currentPlayer == player1:
     label = myFont.render("Player 1 won !!", 1, (100, 100, 255))
 else:
     label = myFont.render("Player 2 won !!", 1, (255, 100, 100))
