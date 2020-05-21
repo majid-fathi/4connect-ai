@@ -73,7 +73,7 @@ while droppedCount != allSlots:
                     for i in range(len(arrowsColor)):
                         if arrowNum != i:
                             arrowsColor[i] = 0
-                        else:
+                        elif gameBoard.game_map[0][i] == 0:
                             arrowsColor[i] = currentPlayer.number
                 else:
                     arrowsColor = [0] * len(gameBoard.game_map[0])
@@ -85,6 +85,10 @@ while droppedCount != allSlots:
                         colInput = int(clickX / (cycleRadius * 2))
                         gameBoard.drop_piece(currentPlayer.number, colInput)
                         arrowsColor = [0] * len(gameBoard.game_map[0])
+                        if currentPlayer == player1 and type(player2) != AIPlayer:
+                            arrowsColor[colInput] = player2.number
+                        else:
+                            arrowsColor[colInput] = player1.number
                         dropped = True
                     except Exception as exception:
                         print(exception)
@@ -112,7 +116,7 @@ elif currentPlayer == player1:
 else:
     label = myFont.render("Player 2 won !!", 1, (255, 100, 100))
 
-screen.blit(label, (40, 10))
+screen.blit(label, (40, len(gameBoard.game_map) * cycleRadius))
 pygame.display.update()
 pygame.time.wait(2000)
 gameBoard.print_map()
