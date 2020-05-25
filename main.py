@@ -117,7 +117,7 @@ def refresh_screen():
     pygame.display.flip()
 
 
-def my_func(position, size, mouse_pos):
+def check_clicked(position, size, mouse_pos):
     if position[0] < mouse_pos[0] < position[0] + size[0] and position[1] < mouse_pos[1] < position[1] + size[1]:
         return True
     return False
@@ -199,19 +199,19 @@ while True:
             sys.exit()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if my_func(PLAYER1_BUTTON_POS, PLAYER_BUTTON_SIZE, event.pos):
+            if check_clicked(PLAYER1_BUTTON_POS, PLAYER_BUTTON_SIZE, event.pos):
                 #  player 1 button pressed
                 if type(player1) == Person:
                     player1 = AIPlayer(1)
                 else:
                     player1 = Person(1)
-            elif my_func(PLAYER2_BUTTON_POS, PLAYER_BUTTON_SIZE, event.pos):
+            elif check_clicked(PLAYER2_BUTTON_POS, PLAYER_BUTTON_SIZE, event.pos):
                 #  player 2 button pressed
                 if type(player2) == Person:
                     player2 = AIPlayer(2)
                 else:
                     player2 = Person(2)
-            elif my_func(START_BUTTON_POS, START_BUTTON_SIZE, event.pos):
+            elif check_clicked(START_BUTTON_POS, START_BUTTON_SIZE, event.pos):
                 #  start button pressed
                 run_game()
 
